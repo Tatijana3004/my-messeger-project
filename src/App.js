@@ -1,24 +1,55 @@
 import logo from './logo.svg';
 import './App.css';
-import React from 'react';
-import { Message } from './Components/Message/Message';
+import React, { useEffect, useState } from 'react';
+import { MessageList } from './Components/MessageList/MessageList';
+import { Form } from './Components/Form/Form';
+import { AUTHORS } from './utils/constants';
 
-// const authorName = 'Me';
-const name = 'Tatiana';
-const date = '26/03/2022';
-// Функчиональный компонент
+// Функциональный компонент
 function App(props) {
-    const start = () => { alert("Open alert"); };
-    return (
-        <div>
-            <img src={logo} className="App-logo" alt="logo" />
-            <header className="App-header">
-                My First React App
-                <h3>Hurrah for {props.name}!</h3>
-            </header>
-            <h2><Message name={name} date={date} doStart={start} /></h2>
 
-        </div>
+    const [messages, setMessages] = useState([]);
+
+    const addMessage = (newMsg) => {
+        setMessages([...messages, newMsg])
+    };
+
+    const sendMessage = (text) => {
+        addMessage({
+            author: AUTHORS.name,
+            text,
+        })
+    };
+
+    useEffect(() => {
+        let timeout;
+        if (messages[messages.length - 1]?.author === AUTHORS.name) {
+            timeout = setTimeout(() => {
+                addMessage({
+                    text: 'the robot response',
+                    author: AUTHORS.robot,
+                });
+            }, 2000);
+
+        } return () => {
+            clearTimeout(timeout);
+        }
+    }, [messages]);
+
+    return (
+        <>
+            <div>
+                <header className="App-header">
+                    <img src={logo} className="App-logo" alt="logo" />
+                    My First React App
+                    <h3>Hurrah for {props.name}!</h3>
+                </header>
+            </div>
+            < div >
+                <MessageList messages={messages} />
+                <Form onSubmit={sendMessage} />
+            </div>
+        </>
     );
 }
 export default App;
