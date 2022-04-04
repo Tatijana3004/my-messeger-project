@@ -1,6 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
+import { Chat } from './Components/Chat/Chat';
 import { MessageList } from './Components/MessageList/MessageList';
 import { Form } from './Components/Form/Form';
 import { AUTHORS } from './utils/constants';
@@ -10,6 +11,8 @@ function App(props) {
 
     const [messages, setMessages] = useState([]);
 
+    const timeout = useRef();
+
     const addMessage = (newMsg) => {
         setMessages([...messages, newMsg])
     };
@@ -18,21 +21,22 @@ function App(props) {
         addMessage({
             author: AUTHORS.name,
             text,
+            id: `msg-${Date.now()}`,
         })
     };
 
     useEffect(() => {
-        let timeout;
         if (messages[messages.length - 1]?.author === AUTHORS.name) {
-            timeout = setTimeout(() => {
+            timeout.current = setTimeout(() => {
                 addMessage({
                     text: 'the robot response',
                     author: AUTHORS.robot,
+                    id: `msg-${Date.now()}`,
                 });
             }, 2000);
 
         } return () => {
-            clearTimeout(timeout);
+            clearTimeout(timeout.current);
         }
     }, [messages]);
 
@@ -45,10 +49,13 @@ function App(props) {
                     <h3>Hurrah for {props.name}!</h3>
                 </header>
             </div>
-            < div >
-                <MessageList messages={messages} />
-                <Form onSubmit={sendMessage} />
-            </div>
+            <div className='app-flex'>
+                <Chat />
+                <div className='Big-block-messages' >
+                    <MessageList messages={messages} />
+                    <Form onSubmit={sendMessage} />
+                </div></div>
+
         </>
     );
 }

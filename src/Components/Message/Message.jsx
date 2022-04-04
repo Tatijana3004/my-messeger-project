@@ -1,3 +1,4 @@
+import { PropTypes } from 'prop-types';
 import './Message.css';
 
 export const Message = ({ author, text }) => {
@@ -8,5 +9,9 @@ export const Message = ({ author, text }) => {
         </div>
     );
 };
+Message.propTypes = {
+    author: PropTypes.string.isRequired,
+    text: PropTypes.string,
+}
 //export const Message = () => <h3>I sent a first message</h3>; Равнозначно выражению выше
 
