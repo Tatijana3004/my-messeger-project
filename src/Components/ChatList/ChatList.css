@@ -1,0 +1,16 @@
+.chat-list div {
+  margin: 10px;
+}
+
+.title-list {
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  text-decoration: none;
+}
+
+.title-list :link {
+  text-decoration: none;
+}
+/*# sourceMappingURL=ChatList.css.map */

@@ -1,89 +1,53 @@
-import logo from './logo.svg';
 import './App.css';
-import React, { useEffect, useState, useRef } from 'react';
-import { Chat } from './Components/Chat/Chat';
-import { MessageList } from './Components/MessageList/MessageList';
-import { Form } from './Components/Form/Form';
-import { AUTHORS } from './utils/constants';
+import { Chat } from './screens/Chat/Chat';
+import { ChatList } from './Components/ChatList/ChatList';
+import { Profile } from './screens/Profile/Profile';
 
-// Функциональный компонент
-function App(props) {
+import { BrowserRouter, Route, Routes, NavLink } from 'react-router-dom';
 
-    const [messages, setMessages] = useState([]);
+const Home = () => (
+    <h4>Home page</h4>
+)
 
-    const timeout = useRef();
-
-    const addMessage = (newMsg) => {
-        setMessages([...messages, newMsg])
-    };
-
-    const sendMessage = (text) => {
-        addMessage({
-            author: AUTHORS.name,
-            text,
-            id: `msg-${Date.now()}`,
-        })
-    };
-
-    useEffect(() => {
-        if (messages[messages.length - 1]?.author === AUTHORS.name) {
-            timeout.current = setTimeout(() => {
-                addMessage({
-                    text: 'the robot response',
-                    author: AUTHORS.robot,
-                    id: `msg-${Date.now()}`,
-                });
-            }, 2000);
-
-        } return () => {
-            clearTimeout(timeout.current);
-        }
-    }, [messages]);
-
+function App() {
     return (
-        <>
-            <div>
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo" />
-                    My First React App
-                    <h3>Hurrah for {props.name}!</h3>
-                </header>
+        <BrowserRouter>
+            <div className="app-header">
+                <div className="title ">
+                    <NavLink
+                        style={({ isActive }) => ({ color: isActive ? 'red' : '#c7d7d6' })}
+                        to="/"
+                    >
+                        Home
+                    </NavLink>
+                </div>
+                <div className="title ">
+                    <NavLink
+                        style={({ isActive }) => ({ color: isActive ? 'red' : '#c7d7d6' })}
+                        to="/profile"
+                    >
+                        Profile
+                    </NavLink>
+                </div>
+                <div className="title ">
+                    <NavLink
+                        style={({ isActive }) => ({ color: isActive ? 'red' : '#c7d7d6' })}
+                        to="/chat"
+                    >
+                        Chat
+                    </NavLink>
+                </div>
             </div>
-            <div className='app-flex'>
-                <Chat />
-                <div className='Big-block-messages' >
-                    <MessageList messages={messages} />
-                    <Form onSubmit={sendMessage} />
-                </div></div>
-
-        </>
+            <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/profile" element={<Profile />} />
+                <Route path="/chat" element={<ChatList />}>
+                    <Route path=":id" element={<Chat />} />
+                </Route>
+                <Route path="*" element={<h4>404</h4>} />
+            </Routes>
+        </ BrowserRouter>
     );
 }
+
 export default App;
-
-// Классовый компонент
-// export class AppClass extends React.Component {
-//   render() {
-//     return (
-//       <div className="App">
-//         <header className="App-header">
-//           <img src={logo} className="App-logo" alt="logo" />
-//           <p>
-//             Edit <code>src/App.js</code> and save to reload.
-//           </p>
-//           <a
-//             className="App-link"
-//             href="https://reactjs.org"
-//             target="_blank"
-//             rel="noopener noreferrer"
-//           >
-//             Learn React
-//           </a>
-//         </header>
-//       </div>
-//     );
-//   }
-
-// }
-
-// export default AppClass;
