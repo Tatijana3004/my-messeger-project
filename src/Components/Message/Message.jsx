@@ -3,7 +3,7 @@ import './Message.css';
 
 export const Message = ({ author, text }) => {
     return (
-        <div className="Block-message">
+        <div className="block-message">
             <h6>{author}:</h6>
             <i>{text}</i>
         </div>

@@ -1,9 +1,8 @@
-.Big-block-messages {
-  width: 70%;
-  text-align: right;
+.big-block-messages {
+  width: 100%;
 }
 
-.Block-message {
+.block-message {
   color: #3a3939;
   font-size: 12px;
   text-align: right;
@@ -13,7 +12,7 @@
   border-radius: 0px 10px;
 }
 
-.Block-message h6 {
+.block-message h6 {
   margin-top: 5px;
   margin-bottom: 0px;
 }

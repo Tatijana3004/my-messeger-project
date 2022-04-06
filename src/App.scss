@@ -1,21 +1,30 @@
-.App-logo {
-  height: 5vmin;
-  pointer-events: none;
+/* // .App-logo {
+//   height: 5vmin;
+//   pointer-events: none;
 
+// } */
+
+.app-header {
+    background-color: #29504d;
+    /* // min-height: 100vh;
+    // display: flex;
+    // flex-direction: column;
+    // align-items: center;
+    // justify-content: center;
+    // font-size: calc(10px + 2vmin); */
+    color: #c7d7d6;
+    display: flex;
+    justify-content: flex-start;
 }
 
-.App-header {
-  background-color: #29504d;
-  // min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  // font-size: calc(10px + 2vmin);
-  color: #c7d7d6;
+.title {
+    padding: 20px;
+}
+.title :Link {
+    text-decoration: none;
 }
 
-.app-flex {
-  display: flex;
-  justify-content: space-between;
-}
+/* // .app-flex {
+//   display: flex;
+//   justify-content: space-between;
+// } */
