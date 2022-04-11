@@ -13,4 +13,11 @@
 .title-list :link {
   text-decoration: none;
 }
+
+/* .change-theme{
+    font-style: italic;
+} */
+.change-theme:after {
+  content: "Red / Blue";
+}
 /*# sourceMappingURL=ChatList.css.map */
