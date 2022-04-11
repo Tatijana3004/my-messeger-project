@@ -1,13 +1,12 @@
-import './Chat.css'
-// import logo from '../../../src/logo.svg';
 import { useEffect, useRef, useState } from 'react';
+import { Navigate, useParams } from 'react-router-dom';
+
+import './Chat.css'
+
 import { Form } from '../../Components/Form/Form';
 import { MessageList } from '../../Components/MessageList/MessageList';
 import { AUTHORS } from '../../utils/constants';
-import { Navigate, useNavigate, useParams } from 'react-router-dom';
-// import { ChatList } from '../../Components/ChatList/ChatList';
 
-// const messages = { chatId: [] };
 
 const chats = [
     {
@@ -76,21 +75,15 @@ export function Chat() {
     }
 
     return (
-        <div className='big-block-messages' ref={wrapperRef}>
-            {/* <header className="App-header" ref={wrapperRef}>
-                    <img src={logo} className="App-logo" alt="logo" />
-                    My First React App
-                    <h3>Hurrah for {props.name}!</h3>
-                </header> */}
-            {/* <ChatList /> */}
-
-            {/* <div > */}
-            <div>
+        <div>
+            {/* <div className='big-block-messages' ref={wrapperRef}> */}
+            <div className='big-block-messages' ref={wrapperRef}>
                 <MessageList messages={messages[id]} />
-                <Form onSubmit={sendMessage} />
-                {/* </div> */}
             </div>
-
+            {/* </div> */}
+            <div>
+                <Form onSubmit={sendMessage} />
+            </div>
         </div>
     );
 }
