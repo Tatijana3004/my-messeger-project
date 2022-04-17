@@ -1,20 +1,14 @@
-/* // .App-logo {
-//   height: 5vmin;
-//   pointer-events: none;
-
-// } */
-
 .app-header {
     background-color: #29504d;
-    /* // min-height: 100vh;
-    // display: flex;
-    // flex-direction: column;
-    // align-items: center;
-    // justify-content: center;
-    // font-size: calc(10px + 2vmin); */
     color: #c7d7d6;
+}
+
+.app-header ul {
     display: flex;
-    justify-content: flex-start;
+}
+
+.app-header li {
+    list-style-type:none;
 }
 
 .title {
@@ -24,7 +18,3 @@
     text-decoration: none;
 }
 
-/* // .app-flex {
-//   display: flex;
-//   justify-content: space-between;
-// } */

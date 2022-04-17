@@ -1,19 +1,41 @@
-.chat-list div {
+.chat-list article {
     margin: 10px;
-}
-
-.title-list {
-    flex-direction: column; 
     text-decoration: none;
 }
 
-.title-list :link{
+.chat-list a {
     text-decoration: none;
 }
+
+.title-list :link {
+    text-decoration: none;
+}
+
 /* .change-theme{
     font-style: italic;
 } */
-.change-theme:after{
-    content:"Red / Blue";
+.change-theme:after {
+    content: "Red / Blue";
 
+}
+
+.title-list form {
+    margin: -20px;
+    padding: 0px;
+    width: 350px;
+    text-align: left;
+}
+
+.forma-add-chat input {
+    min-height: 0.1em;
+    display: table-cell;
+    vertical-align: middle;
+    height: 5px;
+}
+
+.forma-add-chat button {
+    min-height: 0.1em;
+    display: inline-block;
+    vertical-align: middle;
+    height: 5px;
 }

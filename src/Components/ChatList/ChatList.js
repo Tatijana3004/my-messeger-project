@@ -5,52 +5,54 @@ import "./ChatList.css"
 
 import { MyButton } from "../MyButton/MyButton";
 import { ThemeContext } from "../../utils/ThemeContext";
+import { Form } from "../Form/Form";
+import { selectChats } from "../../store/chats/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { clearMessages, initMessagesForChat } from "../../store/messages/actions";
+import { addChat, deleteChat } from "../../store/chats/actions";
 
-
-
-const chats = [
-    {
-        id: "chat1",
-        name: "Work",
-    },
-    {
-        id: "chat2",
-        name: "Training",
-    },
-    {
-        id: "chat3",
-        name: "House",
-    },
-    {
-        id: "chat4",
-        name: "Olga",
-    },
-];
 
 export const ChatList = () => {
+    const chats = useSelector(selectChats);
+    const dispatch = useDispatch();
+
+    const handleSubmit = (newChatName) => {
+        const newChat = {
+            name: newChatName,
+            id: `chat-${Date.now()}`,
+        };
+        dispatch(addChat(newChat));
+        dispatch(initMessagesForChat(newChat.id));
+    };
+
+    const handleRemoveChat = (id) => {
+        dispatch(deleteChat(id));
+        dispatch(clearMessages(id));
+    };
+
     const { changeTheme } = useContext(ThemeContext);
     return (
         <>
-            <MyButton
+            <MyButton //Кнопка меняет цвет темы
                 onClick={
                     changeTheme
                 }
             >
                 <button className="change-theme">Click to change the theme </button>
             </MyButton>
-            <div className="chat-list">
-                <div className="title-list">
-                    {chats.map((chat) => (
-                        <div>
-                            <NavLink style={({ isActive }) => ({ color: isActive ? 'red' : 'black' })}
-                                to={`/chat/${chat.id}`} key={chat.id}>
-                                {chat.name}
-                            </NavLink>
-                        </div>
-                    ))}
-                </div>
-                <Outlet />
-            </div>
+            <section className="chat-list">
+                {chats.map((chat) => (
+                    <article key={chat.id}>
+                        <NavLink style={({ isActive }) => ({ color: isActive ? 'red' : 'black' })}
+                            to={`/chat/${chat.id}`}>
+                            {chat.name}
+                        </NavLink>
+                        <span onClick={() => handleRemoveChat(chat.id)}> &#128465;</span>
+                    </article>
+                ))}
+                <footer className="forma-add-chat"><Form onSubmit={handleSubmit} /></footer>
+            </section>
+            <Outlet />
         </>
     );
 }

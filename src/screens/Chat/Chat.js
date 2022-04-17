@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef } from 'react';
 import { Navigate, useParams } from 'react-router-dom';
 
 import './Chat.css'
@@ -6,63 +6,46 @@ import './Chat.css'
 import { Form } from '../../Components/Form/Form';
 import { MessageList } from '../../Components/MessageList/MessageList';
 import { AUTHORS } from '../../utils/constants';
+import { useDispatch, useSelector } from 'react-redux';
+import { selectMessagesByChatId } from '../../store/messages/selectors';
+import { addMessage } from '../../store/messages/actions';
 
-
-const chats = [
-    {
-        id: "chat1",
-        name: "Work",
-    },
-    {
-        id: "chat2",
-        name: "training",
-    },
-    {
-        id: "chat3",
-        name: "house",
-    },
-    {
-        id: "chat4",
-        name: "Olga",
-    },
-];
-
-const initMessages = {
-    chat1: [],
-    chat2: [],
-    chat3: [],
-    chat4: [],
-}
 
 export function Chat() {
     const { id } = useParams();
+    const getMessages = useMemo(() => selectMessagesByChatId(id), [id]);
+    const messages = useSelector(getMessages);
+    const dispatch = useDispatch();
 
-    const [messages, setMessages] = useState(initMessages);
+    // const [messages, setMessages] = useState(initMessages);
 
     const timeout = useRef();
     const wrapperRef = useRef();
 
-    const addMessage = (newMsg) => {
-        setMessages({ ...messages, [id]: [...messages[id], newMsg] })
-    };
 
     const sendMessage = (text) => {
-        addMessage({
-            author: AUTHORS.name,
-            text,
-            id: `msg-${Date.now()}`,
-        });
+        dispatch(
+            addMessage({
+                author: AUTHORS.name,
+                text,
+                id: `msg-${Date.now()}`,
+            }, id
+            )
+        );
     };
 
     useEffect(() => {
-        const lastMessages = messages[id]?.[messages[id]?.length - 1];
+        const lastMessages = messages?.[messages?.length - 1];
         if (lastMessages?.author === AUTHORS.name) {
             timeout.current = setTimeout(() => {
-                addMessage({
-                    text: 'the robot response',
-                    author: AUTHORS.robot,
-                    id: `msg-${Date.now()}`,
-                });
+                dispatch(
+                    addMessage({
+                        text: 'the robot response',
+                        author: AUTHORS.robot,
+                        id: `msg-${Date.now()}`,
+                    }, id
+                    )
+                );
             }, 2000);
 
         } return () => {
@@ -70,20 +53,18 @@ export function Chat() {
         };
     }, [messages]);
 
-    if (!messages[id]) {
+    if (!messages) {
         return <Navigate to="/chat" replace />
     }
 
     return (
-        <div>
-            {/* <div className='big-block-messages' ref={wrapperRef}> */}
+        <section>
             <div className='big-block-messages' ref={wrapperRef}>
-                <MessageList messages={messages[id]} />
+                <MessageList messages={messages} />
             </div>
-            {/* </div> */}
-            <div>
+            <footer>
                 <Form onSubmit={sendMessage} />
-            </div>
-        </div>
+            </footer>
+        </section>
     );
 }
