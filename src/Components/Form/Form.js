@@ -27,25 +27,27 @@ export const Form = ({ onSubmit }) => {
     }, []);
 
     return (
-        <form className="forma" onSubmit={handleSubmit}>
-            {/* <input className="forma-text" value={value} onChange={handleChange} type="text" ref={inputRef} /> */}
-            {/* <input type="submit" value="Submit" /> */}
+        <div className="forma" >
+            <form onSubmit={handleSubmit}>
 
-            <TextField
-                id="filled-multiline-flexible"
-                label="Message"
-                // multiline
-                // maxRows={4}
-                value={value}
-                onChange={handleChange}
-                variant="filled"
-                className="forma-text"
-                type="text"
-                inputRef={inputRef}
-            />
-            <Button type="submit">
-                Send
-            </Button>
-        </form>
+                <TextField
+                    id="filled-multiline-flexible"
+                    // label="Message"
+                    // multiline
+                    // maxRows={4}
+                    value={value}
+                    onChange={handleChange}
+                    variant="filled"
+                    className="forma-text"
+                    type="text"
+                    inputRef={inputRef}
+                />
+
+                <Button type="submit">
+                    Send
+                </Button>
+            </form>
+        </div>
+
     )
 }

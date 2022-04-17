@@ -1,6 +1,4 @@
 .chat-list {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
+  width: 200px;
 }
 /*# sourceMappingURL=Chat.css.map */
