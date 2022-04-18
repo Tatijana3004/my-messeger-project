@@ -1,10 +1,11 @@
-import { connect, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Form } from "../../Components/Form/Form";
 import { setName, toggleCheckbox } from "../../store/profile/actions";
 import { selectName, selectShowName } from "../../store/profile/selectors";
+import { usePrev } from "../../utils/usePrev";
 
 // Использованы хуки
-export const Profile = () => {
+export const Profile = ({ onLogout }) => {
     const dispatch = useDispatch();
     const name = useSelector(selectName);
     const showName = useSelector(selectShowName);
@@ -12,12 +13,17 @@ export const Profile = () => {
         dispatch(toggleCheckbox);
     };
 
+    const prevName = usePrev(name);
+    console.log(prevName);
+
     const handleSubmit = (text) => {
         dispatch(setName(text));
     }
     return (
         <>
             <h3>This is Profile {showName && <span>{name}</span>}</h3>
+            <button onClick={onLogout}>LOGOUT</button>
+            {showName && <span>{name}</span>}
             <Form onSubmit={handleSubmit} />
 
             <div>

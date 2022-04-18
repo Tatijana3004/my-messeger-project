@@ -1,15 +1,15 @@
 import { useContext } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { NavLink, Outlet } from 'react-router-dom';
 
 import "./ChatList.css"
 
-import { MyButton } from "../MyButton/MyButton";
-import { ThemeContext } from "../../utils/ThemeContext";
-import { Form } from "../Form/Form";
-import { selectChats } from "../../store/chats/selectors";
-import { useDispatch, useSelector } from "react-redux";
-import { clearMessages, initMessagesForChat } from "../../store/messages/actions";
 import { addChat, deleteChat } from "../../store/chats/actions";
+import { clearMessages, initMessagesForChat } from "../../store/messages/actions";
+import { Form } from "../Form/Form";
+import { MyButton } from "../MyButton/MyButton";
+import { selectChats } from "../../store/chats/selectors";
+import { ThemeContext } from "../../utils/ThemeContext";
 
 
 export const ChatList = () => {
@@ -50,7 +50,9 @@ export const ChatList = () => {
                         <span onClick={() => handleRemoveChat(chat.id)}> &#128465;</span>
                     </article>
                 ))}
-                <footer className="forma-add-chat"><Form onSubmit={handleSubmit} /></footer>
+                <footer className="forma-add-chat">
+                    <Form onSubmit={handleSubmit} />
+                </footer>
             </section>
             <Outlet />
         </>

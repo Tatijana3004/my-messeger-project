@@ -1,14 +1,15 @@
 import { useEffect, useMemo, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
 import './Chat.css'
 
 import { Form } from '../../Components/Form/Form';
 import { MessageList } from '../../Components/MessageList/MessageList';
+import { selectMessages, selectMessagesByChatId } from '../../store/messages/selectors';
+import { addMessage, addMessageWithReply } from "../../store/messages/actions";
 import { AUTHORS } from '../../utils/constants';
-import { useDispatch, useSelector } from 'react-redux';
-import { selectMessagesByChatId } from '../../store/messages/selectors';
-import { addMessage } from '../../store/messages/actions';
+
 
 
 export function Chat() {
@@ -17,15 +18,13 @@ export function Chat() {
     const messages = useSelector(getMessages);
     const dispatch = useDispatch();
 
-    // const [messages, setMessages] = useState(initMessages);
-
     const timeout = useRef();
     const wrapperRef = useRef();
 
 
     const sendMessage = (text) => {
         dispatch(
-            addMessage({
+            addMessageWithReply({
                 author: AUTHORS.name,
                 text,
                 id: `msg-${Date.now()}`,
@@ -34,24 +33,24 @@ export function Chat() {
         );
     };
 
-    useEffect(() => {
-        const lastMessages = messages?.[messages?.length - 1];
-        if (lastMessages?.author === AUTHORS.name) {
-            timeout.current = setTimeout(() => {
-                dispatch(
-                    addMessage({
-                        text: 'the robot response',
-                        author: AUTHORS.robot,
-                        id: `msg-${Date.now()}`,
-                    }, id
-                    )
-                );
-            }, 2000);
+    // useEffect(() => {
+    //     const lastMessages = messages?.[messages?.length - 1];
+    //     if (lastMessages?.author === AUTHORS.name) {
+    //         timeout.current = setTimeout(() => {
+    //             dispatch(
+    //                 addMessage({
+    //                     text: 'the robot response',
+    //                     author: AUTHORS.robot,
+    //                     id: `msg-${Date.now()}`,
+    //                 }, id
+    //                 )
+    //             );
+    //         }, 2000);
 
-        } return () => {
-            clearTimeout(timeout.current);
-        };
-    }, [messages]);
+    //     } return () => {
+    //         clearTimeout(timeout.current);
+    //     };
+    // }, [messages]);
 
     if (!messages) {
         return <Navigate to="/chat" replace />
