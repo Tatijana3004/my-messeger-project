@@ -1,11 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
+import { PersistGate } from "redux-persist/integration/react";
 
 import './index.css';
 
 import App from './App';
-import { store } from './store';
+import { persistor, store } from './store';
 
 
 const authorName = 'Me';
@@ -13,7 +14,9 @@ const authorName = 'Me';
 ReactDOM.render(
     // <React.StrictMode>
     <Provider store={store}>
-        <App />
+        <PersistGate persistor={persistor}>
+            <App />
+        </PersistGate>
     </Provider>,
     // </React.StrictMode >,
     document.getElementById("root")

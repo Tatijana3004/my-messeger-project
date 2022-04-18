@@ -8,6 +8,9 @@ import { ChatList } from './Components/ChatList/ChatList';
 import { Profile } from './screens/Profile/Profile';
 import { Home } from './screens/Home/Home';
 import { ThemeContext } from './utils/ThemeContext';
+import { Articles } from "./screens/Articles/Articles";
+import { PrivateRoute } from "./Components/PrivateRoute/PrivateRoute";
+import { PublicRoute } from "./Components/PublicRoute/PublicRoute";
 
 
 
@@ -17,6 +20,16 @@ function App() {
     // const [chats, setChats] = useState(initialChats);
     // const [messages, setMessages] = useState(initMessages);
 
+    const [authed, setAuthed] = useState(false);
+
+    const handleLogin = () => {
+        setAuthed(true);
+    };
+
+    const handleLogout = () => {
+        setAuthed(false);
+    };
+
     const toogleTheme = () => {
         setTheme((prevTheme) => (prevTheme === "dark" ? "light" : "dark"));
     };
@@ -24,7 +37,6 @@ function App() {
 
     return (
         <ThemeContext.Provider value={{ theme, changeTheme: toogleTheme }}>
-
             <BrowserRouter>
                 <header>
                     <nav className="app-header">
@@ -58,11 +70,20 @@ function App() {
                 </header>
 
                 <Routes>
-                    <Route path="/" element={<Home />} />
-                    <Route path="/profile" element={<Profile />} />
+                    <Route path="/" element={<PublicRoute authed={authed} />}>
+                        <Route path="/" element={<Home onAuth={handleLogin} />} />
+                    </Route>
+
+                    <Route path="/profile" element={<PrivateRoute authed={authed} />}>
+                        <Route path="" element={<Profile onLogout={handleLogout} />} />
+                    </Route>
+
+                    <Route path="/articles" element={<Articles />} />
+
                     <Route path="/chat" element={<ChatList />}>
                         <Route path=":id" element={<Chat />} />
                     </Route>
+
                     <Route path="*" element={<h4>404</h4>} />
                 </Routes>
 
