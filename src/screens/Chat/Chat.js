@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Navigate, useParams } from 'react-router-dom';
 
@@ -6,8 +6,8 @@ import './Chat.css'
 
 import { Form } from '../../Components/Form/Form';
 import { MessageList } from '../../Components/MessageList/MessageList';
-import { selectMessages, selectMessagesByChatId } from '../../store/messages/selectors';
-import { addMessage, addMessageWithReply } from "../../store/messages/actions";
+import { selectMessagesByChatId } from '../../store/messages/selectors';
+import { addMessageWithReply } from "../../store/messages/actions";
 import { AUTHORS } from '../../utils/constants';
 
 
@@ -32,25 +32,6 @@ export function Chat() {
             )
         );
     };
-
-    // useEffect(() => {
-    //     const lastMessages = messages?.[messages?.length - 1];
-    //     if (lastMessages?.author === AUTHORS.name) {
-    //         timeout.current = setTimeout(() => {
-    //             dispatch(
-    //                 addMessage({
-    //                     text: 'the robot response',
-    //                     author: AUTHORS.robot,
-    //                     id: `msg-${Date.now()}`,
-    //                 }, id
-    //                 )
-    //             );
-    //         }, 2000);
-
-    //     } return () => {
-    //         clearTimeout(timeout.current);
-    //     };
-    // }, [messages]);
 
     if (!messages) {
         return <Navigate to="/chat" replace />

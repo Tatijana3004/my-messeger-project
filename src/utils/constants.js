@@ -3,7 +3,7 @@ export const AUTHORS = {
     robot: 'Bot',
 };
 
-export const apiUrl = "https://api.spaceflightnewsapi.net/v3/artiles";
+export const apiUrl = "https://api.spaceflightnewsapi.net/v3/articles";
 
 export const FETCH_STATUSES = {
     IDLE: "idle",

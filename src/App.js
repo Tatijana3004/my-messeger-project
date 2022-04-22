@@ -60,6 +60,14 @@ function App() {
                             <li className="title">
                                 <NavLink
                                     style={({ isActive }) => ({ color: isActive ? 'red' : '#c7d7d6' })}
+                                    to="/articles"
+                                >
+                                    Articles
+                                </NavLink>
+                            </li>
+                            <li className="title">
+                                <NavLink
+                                    style={({ isActive }) => ({ color: isActive ? 'red' : '#c7d7d6' })}
                                     to="/chat"
                                 >
                                     Chat
