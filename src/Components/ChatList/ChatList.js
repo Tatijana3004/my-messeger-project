@@ -1,19 +1,18 @@
-import { useContext } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useContext, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { NavLink, Outlet } from 'react-router-dom';
 
 import "./ChatList.css"
 
-import { addChat, deleteChat } from "../../store/chats/actions";
-import { clearMessages, initMessagesForChat } from "../../store/messages/actions";
 import { Form } from "../Form/Form";
 import { MyButton } from "../MyButton/MyButton";
-import { selectChats } from "../../store/chats/selectors";
 import { ThemeContext } from "../../utils/ThemeContext";
+import { chatsRef, getChatRefById, getMsgsRefById } from "../../services/firebase";
+import { onValue, remove, set } from "firebase/database";
 
 
 export const ChatList = () => {
-    const chats = useSelector(selectChats);
+    const [chats, setChats] = useState([]);
     const dispatch = useDispatch();
 
     const handleSubmit = (newChatName) => {
@@ -21,14 +20,22 @@ export const ChatList = () => {
             name: newChatName,
             id: `chat-${Date.now()}`,
         };
-        dispatch(addChat(newChat));
-        dispatch(initMessagesForChat(newChat.id));
+        set(getChatRefById(newChat.id), newChat);
+        set(getMsgsRefById(newChat.id), { exists: true });
     };
 
     const handleRemoveChat = (id) => {
-        dispatch(deleteChat(id));
-        dispatch(clearMessages(id));
+        remove(getChatRefById(id));
+        set(getMsgsRefById(id), null);
     };
+
+    useEffect(() => {
+        const unsubscribe = onValue(chatsRef, (snapshot) => {
+            console.log(snapshot.val());
+            setChats(Object.values(snapshot.val() || {}));
+        });
+        return unsubscribe;
+    }, []);
 
     const { changeTheme } = useContext(ThemeContext);
     return (
@@ -44,8 +51,7 @@ export const ChatList = () => {
                 {chats.map((chat) => (
                     <article key={chat.id}>
                         <NavLink style={({ isActive }) => ({ color: isActive ? 'red' : 'black' })}
-                            to={`/chat/${chat.id}`}>
-                            {chat.name}
+                            to={`/chat/${chat.id}`}>{chat.name}
                         </NavLink>
                         <span onClick={() => handleRemoveChat(chat.id)}> &#128465;</span>
                     </article>
