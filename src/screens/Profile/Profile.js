@@ -1,24 +1,28 @@
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Form } from "../../Components/Form/Form";
-import { setName, toggleCheckbox } from "../../store/profile/actions";
+import { initProfileTrack, setNameFB, setShowName, stopProfileTrack }
+    from "../../store/profile/actions";
 import { selectName, selectShowName } from "../../store/profile/selectors";
-import { usePrev } from "../../utils/usePrev";
 
 export const Profile = ({ onLogout }) => {
     const dispatch = useDispatch();
 
     const name = useSelector(selectName);
     const showName = useSelector(selectShowName);
-    const handleClick = () => {
-        dispatch(toggleCheckbox);
-    };
-
-    const prevName = usePrev(name);
-    console.log(prevName);
+    const handleClick = () => { dispatch(setShowName(!showName)); };
 
     const handleSubmit = (text) => {
-        dispatch(setName(text));
+        dispatch(setNameFB(text));
     };
+
+    useEffect(() => {
+        dispatch(initProfileTrack());
+
+        return () => {
+            dispatch(stopProfileTrack());
+        };
+    }, []);
 
     return (
         <>
